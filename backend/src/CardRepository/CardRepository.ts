@@ -1,7 +1,7 @@
-import {injectable} from "tsyringe";
 import {Card} from "../Card";
+import {singleton} from "tsyringe";
 
-@injectable()
+@singleton()
 export class CardRepository {
 
     private data = new Map();

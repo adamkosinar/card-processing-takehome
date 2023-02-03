@@ -15,7 +15,7 @@ describe("CardRepository", () => {
                 name: "testCard",
                 limit: 0,
                 balance: 0
-            }
+            };
 
             repository.insert(card);
 
