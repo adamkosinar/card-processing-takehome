@@ -1,6 +1,6 @@
 import {singleton} from "tsyringe";
 import {CardService} from "../CardService/CardService";
-import {Card} from "../Card";
+import {BadRequestException} from "../ErrorHandling/BadRequestException";
 
 @singleton()
 export class CardController {
@@ -8,22 +8,59 @@ export class CardController {
     constructor(private cardService: CardService) {
     }
 
-    public async addCard(request, response) {
+    public addCard(request, response) {
 
         const payload = request.body;
 
-        this.cardService.addCard(payload);
+        try {
 
-        response.send({
-            success: true
-        });
+            payload.balance = 0;
+            this.cardService.addCard(payload);
+            this.renderResponse(200, {success: true}, response);
+
+        } catch (exception) {
+
+            if (exception instanceof BadRequestException) {
+
+                return this.renderBadRequest(exception.message, response);
+
+            }
+
+            this.renderInternalServerError(response);
+        }
 
     }
 
-    public async getCards(request, response) {
+    public getCards(request, response) {
 
-        response.send(this.cardService.getCards());
+        try {
 
+            this.renderResponse(200, this.cardService.getCards(), response);
+        }
+        catch (exception) {
+
+            this.renderInternalServerError(response);
+        }
+    }
+
+    private renderResponse(statusCode, body, response) {
+
+        response.code(statusCode);
+        response.send(body);
+    }
+
+    private renderBadRequest(message: string, response) {
+
+        this.renderResponse(400, {
+            message: message
+        }, response);
+    }
+
+    private renderInternalServerError(response) {
+
+        this.renderResponse(500, {
+            message: "Internal Server Error"
+        }, response);
     }
 }
 
