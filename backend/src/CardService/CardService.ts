@@ -1,6 +1,7 @@
 import {CardRepository} from "../CardRepository/CardRepository";
 import {Card} from "../Card";
 import {singleton} from "tsyringe";
+import {BadRequestException} from "../ErrorHandling/BadRequestException";
 
 @singleton()
 export class CardService {
@@ -10,17 +11,31 @@ export class CardService {
 
     public addCard(card: Card) {
 
-        if (!this.isValid(card)) {
-            throw new Error("Invalid Number");
+        if (!this.isValidLuhn10(card.number)) {
+            throw new BadRequestException("The card number is not valid");
         }
 
-        this.cardRepository.insert(card);
+        const storedCard = this.getCard(card.number);
 
+        if (storedCard) {
+            throw new BadRequestException("Card already exists.");
+        }
+
+        return this.cardRepository.insert(card);
     }
 
-    private isValid(card: Card): boolean {
+    public getCards(): Card[] {
+        return this.cardRepository.getAll();
+    }
 
-        const numbers = card.number.split("");
+    public getCard(cardNumber: string): Card {
+
+        return this.cardRepository.getCard(cardNumber);
+    }
+
+    private isValidLuhn10(cardNumber: string): boolean {
+
+        const numbers = cardNumber.split("");
 
         let isSecond = false;
 

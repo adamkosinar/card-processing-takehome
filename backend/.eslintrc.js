@@ -15,6 +15,7 @@ module.exports = {
         }],
         "no-empty-function": "off",
         "prefer-spread": "off",
+        "@typescript-eslint/no-unused-vars": ["off"],
         "@typescript-eslint/ban-ts-comment": ["warn"],
         "@typescript-eslint/no-explicit-any": ["off"],
         "@typescript-eslint/no-empty-function": [ "off"],
