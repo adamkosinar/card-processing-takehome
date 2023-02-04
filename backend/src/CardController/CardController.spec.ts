@@ -46,7 +46,7 @@ describe("CardController", () => {
 
             const mockRequest = {
                 body: {
-                    number: "mock",
+                    number: "49927398716",
                     name: "mock",
                     limit: 0
                 }
@@ -65,7 +65,7 @@ describe("CardController", () => {
 
             const mockRequest = {
                 body: {
-                    number: "mock",
+                    number: "49927398716",
                     name: "mock",
                     limit: 0
                 }
@@ -77,6 +77,22 @@ describe("CardController", () => {
 
             expect(response.code).toBeCalledWith(500);
             expect(response.send).toBeCalledWith({ message: "Internal Server Error"});
+
+        });
+
+        it("should should validate the payload", () => {
+
+            const mockRequest = {
+                body: {
+                    number: "I am not a number, I am a free man",
+                    name: "test",
+                    limit: 0
+                }
+            };
+
+            controller.addCard(mockRequest, response);
+
+            expect(response.code).toBeCalledWith(400);
 
         });
 
@@ -122,7 +138,7 @@ describe("CardController", () => {
 
             const mockRequest = {
                 body: {
-                    number: "mock",
+                    number: "49927398716",
                     name: "mock",
                     limit: 0
                 }
