@@ -4,8 +4,10 @@ import fastifyCors from "@fastify/cors";
 import {container} from "tsyringe";
 import {CardController} from "./src/CardController/CardController";
 
-const server = fastify();
-const port = process.env.PORT || 3000;
+const server = fastify({
+    logger: true
+});
+const port = process.env.PORT || 3030;
 
 server.register(fastifyCors, {});
 

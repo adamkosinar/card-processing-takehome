@@ -29,7 +29,7 @@ describe("CardService", () => {
 
         });
 
-        it("should not throw an error if the card number is not valid", () => {
+        it("should not throw an error if the card number is valid", () => {
 
             expect(() => {
                 service.addCard({

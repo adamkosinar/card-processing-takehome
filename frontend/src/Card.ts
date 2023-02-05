@@ -2,6 +2,6 @@
 export interface Card {
     number: string;
     name: string;
-    balance: number;
+    balance?: number | undefined;
     limit: number;
 }

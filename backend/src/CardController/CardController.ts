@@ -59,6 +59,7 @@ export class CardController {
             }).parse(payload);
 
         } catch (zodError) {
+            console.log(zodError.issues);
             throw new BadRequestException(zodError.issues[0].message);
         }
 
@@ -73,6 +74,7 @@ export class CardController {
     private renderBadRequest(message: string, response) {
 
         this.renderResponse(400, {
+            success: false,
             message: message
         }, response);
     }
@@ -80,6 +82,7 @@ export class CardController {
     private renderInternalServerError(response) {
 
         this.renderResponse(500, {
+            success: false,
             message: "Internal Server Error"
         }, response);
     }
